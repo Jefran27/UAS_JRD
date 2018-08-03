@@ -1,0 +1,76 @@
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Latihan AJAX</title>
+	
+    <!-- Jquery Mobile -->
+    <link rel="stylesheet" href="css/jquery.mobile-1.4.5.min.css">
+    <link href="css/my-style.css" rel="stylesheet">
+	
+    <style>
+		@media (min-width: 720px) {
+			#main{
+				width: 50%;
+				margin: auto;
+			}
+		}
+    </style>
+	
+    <!-- jQuery  -->
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery.mobile-1.4.5.min.js"></script>
+</head>
+<body>
+<script type='text/javascript'>
+		var temp;
+		$(document).ready(function (){
+			$('#form-pencarian').submit(function(event) {
+				
+				/* stop form from submitting normally */
+				event.preventDefault();
+				
+				$('#result .ui-body').html('');
+				
+				var url = $(this).attr('action');
+				
+				$.ajax({
+					type: $(this).attr('method'),
+					url: url,
+					data: $(this).serialize(),
+					dataType: "JSON",
+					success: function(data){
+//						alert(data);
+						if (data == null){
+							$('#result .ui-body').html('Data tidak ditemukan');
+						}else{
+							$('#result .ui-body').html(data[0].tipe+' memiliki tipe '+data[0].harga);
+						}
+						$('#result').show();
+					}
+				});
+			});
+		});
+	</script>
+	<div data-role="page" class="jqm-demos jqm-home">		
+		<div style="margin-top: 50px; margin-bottom: 30px;" id="main" role="main" class="ui-content">						
+			<div id="result" style="margin-bottom: 20px; display: none">
+			  <h3 class="ui-bar ui-bar-a ui-corner-all">Hasil Pencarian</h3>
+			  <div class="ui-body ui-body-a ui-corner-all">
+				
+			  </div>
+			</div>
+			
+			<div id="pencarian">
+			  <h3 class="ui-bar ui-bar-a ui-corner-all">Form Pencarian</h3>
+			  <div class="ui-body ui-body-a ui-corner-all">
+				<form id="form-pencarian" action="get_hobi.php" method="post">
+					<label for="search-1">Masukkan Tipe anda:</label>
+					<input name="tipe" id="nama" value="" placeholder="Cari tipe . . . " type="search">
+					<input value="C A R I" data-theme="a" type="submit">
+				</form>
+			  </div>
+			</div>
+		</div><!-- /content -->
+	</div>
+</body>
+</html>
